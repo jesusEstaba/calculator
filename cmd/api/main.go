@@ -13,14 +13,22 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
+// @title     Calculator API
+// @version   1.0
+
+// @host      localhost:8080
+// @BasePath  /api/calculator/v1
+
 func main() {
 	api := dependencies()
 
 	healthRoutes := routes.NewHealthCheckRoutes()
+	swaggerRoutes := routes.NewSwaggerDocsRoutes()
 	userRoutes := routes.NewRoutes(api.userHandler)
 
 	routesGroup := http.RoutesGroup{
 		HealthCheckRoutes: healthRoutes,
+		SwaggerRoutes:     swaggerRoutes,
 		UserRoutes:        userRoutes,
 	}
 

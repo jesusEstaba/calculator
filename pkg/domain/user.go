@@ -10,7 +10,7 @@ type UserStatus string
 
 const (
 	UserStatusActive   UserStatus = "active"
-	UserStatusInactive            = "inactive"
+	UserStatusInactive UserStatus = "inactive"
 )
 
 type User struct {

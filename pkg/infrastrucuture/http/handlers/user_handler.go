@@ -19,6 +19,16 @@ func NewUserHandler(
 	}
 }
 
+// Register
+// @Tags Table
+// @Summary Create a new user
+// @Accept json
+// @Produce json
+// @Param request body entities.CreateUser true "query params"
+// @Success 201 {object} domain.User
+// @Failure 400 {object} entities.ErrorResponse
+// @Failure 500 {object} entities.ErrorResponse
+// @Router /register [post]
 func (h *UserHandler) Register(ctx *gin.Context) {
 	var create entities.CreateUser
 	if err := ctx.BindJSON(&create); err != nil {
