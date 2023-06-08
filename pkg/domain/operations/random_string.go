@@ -2,7 +2,7 @@ package operations
 
 import (
 	"errors"
-	"github.com/jesusEstaba/calculator/internal/domain"
+	"github.com/jesusEstaba/calculator/pkg/domain"
 )
 
 type RandomString struct {

@@ -2,7 +2,7 @@ package usecase
 
 import (
 	"fmt"
-	"github.com/jesusEstaba/calculator/internal/domain"
+	"github.com/jesusEstaba/calculator/pkg/domain"
 	"testing"
 
 	"github.com/stretchr/testify/assert"

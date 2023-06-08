@@ -2,18 +2,18 @@ package operations
 
 import (
 	"fmt"
-	"github.com/jesusEstaba/calculator/internal/domain"
+	"github.com/jesusEstaba/calculator/pkg/domain"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
-func TestPositiveMultiplication(t *testing.T) {
+func TestPositiveSubtraction(t *testing.T) {
 	// given
-	operation := &Multiplication{}
+	operation := &Subtraction{}
 
 	calc := &domain.Calculation{
-		OperandA: 2,
-		OperandB: 3,
+		OperandA: 3,
+		OperandB: 2,
 	}
 
 	// when
@@ -21,12 +21,12 @@ func TestPositiveMultiplication(t *testing.T) {
 
 	// then
 	assert.Nil(t, err)
-	assert.Equal(t, fmt.Sprintf("%f", float64(6)), result.Result)
+	assert.Equal(t, fmt.Sprintf("%f", float64(1)), result.Result)
 }
 
-func TestNegativeMultiplication(t *testing.T) {
+func TestNegativeSubtraction(t *testing.T) {
 	// given
-	operation := &Multiplication{}
+	operation := &Subtraction{}
 
 	calc := &domain.Calculation{
 		OperandA: -2,
@@ -38,12 +38,12 @@ func TestNegativeMultiplication(t *testing.T) {
 
 	// then
 	assert.Nil(t, err)
-	assert.Equal(t, fmt.Sprintf("%f", float64(6)), result.Result)
+	assert.Equal(t, fmt.Sprintf("%f", float64(1)), result.Result)
 }
 
-func TestZeroMultiplication(t *testing.T) {
+func TestZeroSubtraction(t *testing.T) {
 	// given
-	operation := &Multiplication{}
+	operation := &Subtraction{}
 
 	calc := &domain.Calculation{
 		OperandA: 0,
