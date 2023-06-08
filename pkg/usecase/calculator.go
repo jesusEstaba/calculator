@@ -67,7 +67,7 @@ func (uc *CalculatorUseCase) Calculate(userID string, operation *domain.Calculat
 		return nil, err
 	}
 
-	err = uc.userRepo.UpdateUser(user)
+	err = uc.userRepo.UpdateUser(*user)
 	if err != nil {
 		return nil, err
 	}

@@ -3,6 +3,7 @@ package usecase
 import (
 	"fmt"
 	"github.com/jesusEstaba/calculator/pkg/domain"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -10,8 +11,9 @@ import (
 
 func TestCalculate(t *testing.T) {
 	// given
+	userID, _ := primitive.ObjectIDFromHex("user-1")
 	user := domain.User{
-		ID:      "user-1",
+		ID:      &userID,
 		Balance: 1000,
 	}
 
@@ -50,7 +52,7 @@ func TestCalculate(t *testing.T) {
 	)
 
 	// when
-	result, err := usecase.Calculate(user.ID, operation)
+	result, err := usecase.Calculate(userID.Hex(), operation)
 
 	// then
 	assert.Nil(t, err)
@@ -62,8 +64,9 @@ func TestCalculate(t *testing.T) {
 
 func TestCalculateWhenOperationFails(t *testing.T) {
 	// given
+	userID, _ := primitive.ObjectIDFromHex("user-1")
 	user := domain.User{
-		ID:      "user-1",
+		ID:      &userID,
 		Balance: 1000,
 	}
 
@@ -90,7 +93,7 @@ func TestCalculateWhenOperationFails(t *testing.T) {
 	)
 
 	// when
-	_, err := usecase.Calculate(user.ID, operation)
+	_, err := usecase.Calculate(userID.Hex(), operation)
 
 	// then
 	assert.Equal(t, "can not perform division by zero", err.Error())
@@ -100,8 +103,9 @@ func TestCalculateWhenOperationFails(t *testing.T) {
 
 func TestCalculateWithInsufficientBalance(t *testing.T) {
 	// given
+	userID, _ := primitive.ObjectIDFromHex("user-1")
 	user := domain.User{
-		ID:      "user-1",
+		ID:      &userID,
 		Balance: 0,
 	}
 
@@ -126,7 +130,7 @@ func TestCalculateWithInsufficientBalance(t *testing.T) {
 	)
 
 	// when
-	_, err := usecase.Calculate(user.ID, operation)
+	_, err := usecase.Calculate(userID.Hex(), operation)
 
 	// then
 	assert.Equal(t, "insufficient balance", err.Error())

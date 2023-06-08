@@ -22,9 +22,9 @@ type MockUserRepo struct {
 	mock.Mock
 }
 
-func (m *MockUserRepo) GetUser(userID string) (domain.User, error) {
+func (m *MockUserRepo) GetUser(userID string) (*domain.User, error) {
 	args := m.Called(userID)
-	return args.Get(0).(domain.User), nil
+	return args.Get(0).(*domain.User), nil
 }
 
 func (m *MockUserRepo) FindByUsername(userID string) (*domain.User, error) {
