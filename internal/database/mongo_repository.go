@@ -22,6 +22,7 @@ type Model[T any] interface {
 
 type CRUDRepository[V any, T Model[V]] interface {
 	Insert(T) error
+	InsertMany([]T) ([]primitive.ObjectID, error)
 	FindByID(id string) (T, error)
 	FindByKey(key string, value any) (T, error)
 	GetByFilterSoftDeletes(filter bson.M, opts ...*options.FindOptions) ([]T, error)
@@ -190,4 +191,31 @@ func (r *crudRepository[V, T]) GetByFilterSoftDeletes(filter bson.M, opts ...*op
 	}
 
 	return result, mongoError(res.Err())
+}
+
+func (r *crudRepository[V, T]) InsertMany(documents []T) ([]primitive.ObjectID, error) {
+	ctx, cancel := nctx()
+	defer cancel()
+
+	logrus.Infof("Inserting: %v", documents)
+
+	docs := make([]interface{}, len(documents))
+	for i, v := range documents {
+		docs[i] = v
+	}
+
+	result, err := r.collection.InsertMany(ctx, docs)
+	if err != nil {
+		logrus.Infof("Failed Inserting: %v", documents)
+		return nil, err
+	}
+
+	ids := make([]primitive.ObjectID, len(result.InsertedIDs))
+	for i, v := range result.InsertedIDs {
+		ids[i] = v.(primitive.ObjectID)
+	}
+
+	logrus.Infof("Inserted: %v", documents)
+
+	return ids, nil
 }
