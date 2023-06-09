@@ -48,13 +48,23 @@ func dependencies() *API {
 
 	userRepoImpl := persistence.NewUserRepository(db)
 	passwdRepoImpl := third_party.NewPasswordRepository()
+	tokenRepoImpl := third_party.NewTokenRepositoryImplementation()
 
 	registerUseCase := usecase.NewRegisterUserUseCase(
 		userRepoImpl,
 		passwdRepoImpl,
 	)
 
-	userHandler := handlers.NewUserHandler(registerUseCase)
+	loginUseCase := usecase.NewLoginUseCase(
+		userRepoImpl,
+		passwdRepoImpl,
+		tokenRepoImpl,
+	)
+
+	userHandler := handlers.NewUserHandler(
+		registerUseCase,
+		loginUseCase,
+	)
 
 	return &API{
 		userHandler,

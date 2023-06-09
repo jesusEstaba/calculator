@@ -23,6 +23,7 @@ func init() {
 
 type config struct {
 	Environment string `env:"APP_ENV"`
+	JWTSecret   string `env:"APP_JWT_SECRET"`
 	DatabaseConnection
 }
 

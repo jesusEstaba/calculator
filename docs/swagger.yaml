@@ -31,12 +31,53 @@ definitions:
       error:
         type: string
     type: object
+  entities.LoginResponse:
+    properties:
+      token:
+        type: string
+    type: object
+  entities.LoginUser:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    type: object
 host: localhost:8080
 info:
   contact: {}
   title: Calculator API
   version: "1.0"
 paths:
+  /login:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/entities.LoginUser'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/entities.LoginResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/entities.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/entities.ErrorResponse'
+      summary: User login
+      tags:
+      - User
   /register:
     post:
       consumes:
@@ -65,5 +106,5 @@ paths:
             $ref: '#/definitions/entities.ErrorResponse'
       summary: Create a new user
       tags:
-      - Table
+      - User
 swagger: "2.0"
