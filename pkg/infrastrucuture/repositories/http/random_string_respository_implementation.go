@@ -51,12 +51,12 @@ func getBody() string {
 	return `
 	{
 		"jsonrpc": "2.0",
-		"method": "generateUUIDs",
+		"method": "generateStrings",
 		"params": {
 			"apiKey": "` + apiKey + `",
 			"n": 1,
 			"length": 32,
-			"characters": "abcdefghijklmnopqrstuvwxyz",
+			"characters": "abcdefghijklmnopqrstuvwxyz"
 		},
 		"id": "` + id.String() + `"
 	}
