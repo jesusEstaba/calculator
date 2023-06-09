@@ -1,6 +1,7 @@
 [hooks]
 
 pre-commit = [
+  "go test ./...",
   "swag init -g cmd/api/main.go -o docs/",
   "git add docs/docs.go docs/swagger.json docs/swagger.yaml",
   "golangci-lint run ./..."

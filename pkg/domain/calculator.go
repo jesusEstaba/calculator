@@ -10,6 +10,6 @@ type CalculationResult struct {
 	Result string `json:"result"`
 }
 
-type Operation interface {
+type CalculableOperation interface {
 	Calculate(*Calculation) (*CalculationResult, error)
 }

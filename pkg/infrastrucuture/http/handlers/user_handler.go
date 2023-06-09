@@ -71,5 +71,5 @@ func (h *UserHandler) Login(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusCreated, entities.LoginResponse{Token: *token})
+	ctx.JSON(http.StatusOK, entities.LoginResponse{Token: *token})
 }

@@ -1,5 +1,19 @@
 basePath: /api/calculator/v1
 definitions:
+  domain.Calculation:
+    properties:
+      a:
+        type: number
+      b:
+        type: number
+      operation:
+        type: string
+    type: object
+  domain.CalculationResult:
+    properties:
+      result:
+        type: string
+    type: object
   domain.User:
     properties:
       balance:
@@ -49,6 +63,35 @@ info:
   title: Calculator API
   version: "1.0"
 paths:
+  /calculate:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/domain.Calculation'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/domain.CalculationResult'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/entities.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/entities.ErrorResponse'
+      summary: Perform a operation
+      tags:
+      - Calculator
   /login:
     post:
       consumes:

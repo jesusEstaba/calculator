@@ -11,37 +11,46 @@ import (
 
 func TestCalculate(t *testing.T) {
 	// given
-	userID, _ := primitive.ObjectIDFromHex("user-1")
+	userID, _ := primitive.ObjectIDFromHex("648262f623eeafdfb68110e0")
 	user := domain.User{
 		ID:      &userID,
-		Balance: 1000,
+		Balance: 2000,
 	}
 
-	operation := &domain.Calculation{
+	calculation := &domain.Calculation{
 		OperationName: "addition",
 		OperandA:      2,
 		OperandB:      2,
 	}
 
+	operationID, _ := primitive.ObjectIDFromHex("operation-1")
+	operation := &domain.Operation{
+		ID:   &operationID,
+		Cost: 1000,
+	}
+
 	record := domain.Record{
-		OperationID: "addition",
-		UserID:      "user-1",
+		OperationID: operationID.Hex(),
+		UserID:      userID.Hex(),
 		Amount:      1000,
-		UserBalance: 0,
+		UserBalance: 1000,
 		OperationResponse: &domain.CalculationResult{
 			Result: fmt.Sprintf("%f", float64(4)),
 		},
 	}
 
 	operationRepo := new(MockOperationRepo)
-	operationRepo.On("GetOperationCost", operation.OperationName).Return(float64(1000), nil)
+	operationRepo.On("GetOperation", calculation.OperationName).Return(operation, nil)
 	operationRepo.On("RecordOperation", record).Return(nil)
 
 	userRepo := new(MockUserRepo)
-	userRepo.On("GetUser", user.ID).Return(user)
+	userRepo.On("GetUser", userID.Hex()).Return(&user)
 
-	user.Balance = 0
-	userRepo.On("UpdateUser", user).Return(nil)
+	updatedUser := domain.User{
+		ID:      &userID,
+		Balance: 1000,
+	}
+	userRepo.On("UpdateUser", updatedUser).Return(nil)
 
 	randomRepo := new(MockRandomStringRepo)
 
@@ -52,7 +61,7 @@ func TestCalculate(t *testing.T) {
 	)
 
 	// when
-	result, err := usecase.Calculate(userID.Hex(), operation)
+	result, err := usecase.Calculate(userID.Hex(), calculation)
 
 	// then
 	assert.Nil(t, err)
@@ -64,25 +73,46 @@ func TestCalculate(t *testing.T) {
 
 func TestCalculateWhenOperationFails(t *testing.T) {
 	// given
-	userID, _ := primitive.ObjectIDFromHex("user-1")
+	userID, _ := primitive.ObjectIDFromHex("648262f623eeafdfb68110e0")
 	user := domain.User{
 		ID:      &userID,
-		Balance: 1000,
+		Balance: 2000,
 	}
 
-	operation := &domain.Calculation{
+	calculation := &domain.Calculation{
 		OperationName: "division",
 		OperandA:      2,
 		OperandB:      0,
 	}
 
+	operationID, _ := primitive.ObjectIDFromHex("operation-1")
+	operation := &domain.Operation{
+		ID:   &operationID,
+		Cost: 1000,
+	}
+
+	record := domain.Record{
+		OperationID: operationID.Hex(),
+		UserID:      userID.Hex(),
+		Amount:      1000,
+		UserBalance: 1000,
+		OperationResponse: &domain.CalculationResult{
+			Result: fmt.Sprintf("%f", float64(4)),
+		},
+	}
+
 	operationRepo := new(MockOperationRepo)
-	operationRepo.On("GetOperationCost", operation.OperationName).Return(float64(1000), nil)
-	operationRepo.On("RecordOperation", domain.Record{}).Return(nil)
+	operationRepo.On("GetOperation", calculation.OperationName).Return(operation, nil)
+	operationRepo.On("RecordOperation", record).Return(nil)
 
 	userRepo := new(MockUserRepo)
-	userRepo.On("GetUser", user.ID).Return(user)
-	userRepo.On("UpdateUser", user).Return(nil)
+	userRepo.On("GetUser", userID.Hex()).Return(&user)
+
+	updatedUser := domain.User{
+		ID:      &userID,
+		Balance: 1000,
+	}
+	userRepo.On("UpdateUser", updatedUser).Return(nil)
 
 	randomRepo := new(MockRandomStringRepo)
 
@@ -93,7 +123,7 @@ func TestCalculateWhenOperationFails(t *testing.T) {
 	)
 
 	// when
-	_, err := usecase.Calculate(userID.Hex(), operation)
+	_, err := usecase.Calculate(userID.Hex(), calculation)
 
 	// then
 	assert.Equal(t, "can not perform division by zero", err.Error())
@@ -103,23 +133,29 @@ func TestCalculateWhenOperationFails(t *testing.T) {
 
 func TestCalculateWithInsufficientBalance(t *testing.T) {
 	// given
-	userID, _ := primitive.ObjectIDFromHex("user-1")
+	userID, _ := primitive.ObjectIDFromHex("648262f623eeafdfb68110e0")
 	user := domain.User{
 		ID:      &userID,
 		Balance: 0,
 	}
 
-	operation := &domain.Calculation{
+	calculation := &domain.Calculation{
 		OperationName: "addition",
 		OperandA:      2,
 		OperandB:      2,
 	}
 
+	operationID, _ := primitive.ObjectIDFromHex("operation-1")
+	operation := &domain.Operation{
+		ID:   &operationID,
+		Cost: 1000,
+	}
+
 	operationRepo := new(MockOperationRepo)
-	operationRepo.On("GetOperationCost", operation.OperationName).Return(float64(1000), nil)
+	operationRepo.On("GetOperation", calculation.OperationName).Return(operation, nil)
 
 	userRepo := new(MockUserRepo)
-	userRepo.On("GetUser", user.ID).Return(user)
+	userRepo.On("GetUser", userID.Hex()).Return(&user)
 
 	randomRepo := new(MockRandomStringRepo)
 
@@ -130,7 +166,7 @@ func TestCalculateWithInsufficientBalance(t *testing.T) {
 	)
 
 	// when
-	_, err := usecase.Calculate(userID.Hex(), operation)
+	_, err := usecase.Calculate(userID.Hex(), calculation)
 
 	// then
 	assert.Equal(t, "insufficient balance", err.Error())

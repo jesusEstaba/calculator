@@ -9,9 +9,9 @@ type MockOperationRepo struct {
 	mock.Mock
 }
 
-func (m *MockOperationRepo) GetOperationCost(operationName string) (float64, error) {
+func (m *MockOperationRepo) GetOperation(operationName string) (*domain.Operation, error) {
 	args := m.Called(operationName)
-	return args.Get(0).(float64), nil
+	return args.Get(0).(*domain.Operation), nil
 }
 func (m *MockOperationRepo) RecordOperation(record domain.Record) error {
 	args := m.Called(record)

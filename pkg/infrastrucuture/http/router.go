@@ -2,6 +2,7 @@ package http
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/jesusEstaba/calculator/pkg/infrastrucuture/http/middlewares"
 	"github.com/jesusEstaba/calculator/pkg/infrastrucuture/http/routes"
 )
 
@@ -19,6 +20,10 @@ func NewRouter(routes RoutesGroup) Router {
 	service := route.Group("api/calculator/v1")
 	routes.UserRoutes.RegisterUserRoutes(service)
 
+	secure := route.Group("api/calculator/v1")
+	secure.Use(middlewares.AuthenticationMiddleware())
+	routes.CalculatorRoutes.RegisterCalculatorRoutes(secure)
+
 	return route
 }
 
@@ -26,4 +31,5 @@ type RoutesGroup struct {
 	HealthCheckRoutes *routes.HealthRoutes
 	SwaggerRoutes     *routes.SwaggerRoutes
 	UserRoutes        *routes.UserRoutes
+	CalculatorRoutes  *routes.CalculatorRoutes
 }

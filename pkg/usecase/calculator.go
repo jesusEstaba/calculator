@@ -6,17 +6,17 @@ import (
 )
 
 type CalculatorUseCase struct {
-	operationRepo domain.CalculatorRepository
+	operationRepo domain.OperationRepository
 	userRepo      domain.UserRepository
-	operations    map[string]domain.Operation
+	operations    map[string]domain.CalculableOperation
 }
 
 func NewCalculatorUseCase(
 	userRepo domain.UserRepository,
-	operationRepo domain.CalculatorRepository,
+	operationRepo domain.OperationRepository,
 	randomStringRepo domain.RandomStringRepository,
 ) *CalculatorUseCase {
-	operationList := make(map[string]domain.Operation)
+	operationList := make(map[string]domain.CalculableOperation)
 	operationList["addition"] = &operations.Addition{}
 	operationList["subtraction"] = &operations.Subtraction{}
 	operationList["multiplication"] = &operations.Multiplication{}
@@ -33,8 +33,8 @@ func NewCalculatorUseCase(
 	}
 }
 
-func (uc *CalculatorUseCase) Calculate(userID string, operation *domain.Calculation) (*domain.CalculationResult, error) {
-	cost, err := uc.operationRepo.GetOperationCost(operation.OperationName)
+func (uc *CalculatorUseCase) Calculate(userID string, calculation *domain.Calculation) (*domain.CalculationResult, error) {
+	operation, err := uc.operationRepo.GetOperation(calculation.OperationName)
 	if err != nil {
 		return nil, err
 	}
@@ -44,21 +44,21 @@ func (uc *CalculatorUseCase) Calculate(userID string, operation *domain.Calculat
 		return nil, err
 	}
 
-	err = user.Withdraw(cost)
+	err = user.Withdraw(operation.Cost)
 	if err != nil {
 		return nil, err
 	}
 
-	operationFunc := uc.operations[operation.OperationName]
-	result, err := operationFunc.Calculate(operation)
+	operationFunc := uc.operations[calculation.OperationName]
+	result, err := operationFunc.Calculate(calculation)
 	if err != nil {
 		return nil, err
 	}
 
 	operationRecord := domain.Record{
-		OperationID:       operation.OperationName,
+		OperationID:       operation.ID.Hex(),
 		UserID:            userID,
-		Amount:            cost,
+		Amount:            operation.Cost,
 		UserBalance:       user.Balance,
 		OperationResponse: result,
 	}

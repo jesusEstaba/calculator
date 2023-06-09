@@ -1,6 +1,6 @@
 package domain
 
-type CalculatorRepository interface {
-	GetOperationCost(operation string) (float64, error)
+type OperationRepository interface {
+	GetOperation(operation string) (*Operation, error)
 	RecordOperation(Record) error
 }
