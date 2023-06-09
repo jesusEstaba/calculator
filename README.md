@@ -17,4 +17,4 @@ husky init
 
 Open the following URL in your browser to watch the documentation:
 
-[http://localhost:8080/api/calculator/v1/docs/index.html](http://localhost:8080/api/calculator/v1/docs/index.html)
+[http://localhost:8080/docs/index.html](http://localhost:8080/docs/index.html)
