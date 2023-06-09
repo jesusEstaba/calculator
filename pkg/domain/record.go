@@ -15,6 +15,14 @@ type Record struct {
 	Date              string              `json:"created_at" bson:"created_at"`
 }
 
+type RecordSearch struct {
+	UserID     string `json:"user_id"`
+	SearchTerm string `json:"search_term"`
+	Page       uint   `json:"page"`
+	PerPage    uint   `json:"per_page"`
+	Sort       string `json:"sort"`
+}
+
 func (r *Record) GetID() *primitive.ObjectID {
 	return r.ID
 }

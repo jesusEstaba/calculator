@@ -77,7 +77,14 @@ func dependencies() *API {
 		randomRepoImpl,
 	)
 
-	calculatorHandler := handlers.NewCalculatorHandler(calculatorUseCase)
+	searchRecords := usecase.NewSearchUserRecordsUseCase(
+		operationRepoImpl,
+	)
+
+	calculatorHandler := handlers.NewCalculatorHandler(
+		calculatorUseCase,
+		searchRecords,
+	)
 
 	return &API{
 		userHandler,

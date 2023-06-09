@@ -14,6 +14,35 @@ definitions:
       result:
         type: string
     type: object
+  domain.Record:
+    properties:
+      amount:
+        type: number
+      created_at:
+        type: string
+      id:
+        type: string
+      operation_id:
+        type: string
+      operation_response: {}
+      user_balance:
+        type: number
+      user_id:
+        type: string
+    type: object
+  domain.RecordSearch:
+    properties:
+      page:
+        type: integer
+      per_page:
+        type: integer
+      search_term:
+        type: string
+      sort:
+        type: string
+      user_id:
+        type: string
+    type: object
   domain.User:
     properties:
       balance:
@@ -56,6 +85,13 @@ definitions:
         type: string
       username:
         type: string
+    type: object
+  entities.SearchRecordsResponse:
+    properties:
+      records:
+        items:
+          $ref: '#/definitions/domain.Record'
+        type: array
     type: object
 host: localhost:8080
 info:
@@ -121,6 +157,35 @@ paths:
       summary: User login
       tags:
       - User
+  /records:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/domain.RecordSearch'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/entities.SearchRecordsResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/entities.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/entities.ErrorResponse'
+      summary: Get paginated records by search term
+      tags:
+      - Records
   /register:
     post:
       consumes:

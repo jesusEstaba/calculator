@@ -18,6 +18,11 @@ func (m *MockOperationRepo) RecordOperation(record domain.Record) error {
 	return args.Error(0)
 }
 
+func (m *MockOperationRepo) GetRecordsByUserAndSearchTermPaginated(search domain.RecordSearch) ([]*domain.Record, error) {
+	args := m.Called(search)
+	return args.Get(0).([]*domain.Record), args.Error(1)
+}
+
 type MockUserRepo struct {
 	mock.Mock
 }

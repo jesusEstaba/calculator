@@ -10,13 +10,16 @@ import (
 
 type CalculatorHandler struct {
 	calculator *usecase.CalculatorUseCase
+	records    *usecase.SearchUserRecordsUseCase
 }
 
 func NewCalculatorHandler(
 	calculator *usecase.CalculatorUseCase,
+	records *usecase.SearchUserRecordsUseCase,
 ) *CalculatorHandler {
 	return &CalculatorHandler{
 		calculator,
+		records,
 	}
 }
 
@@ -50,4 +53,38 @@ func (h *CalculatorHandler) Calculate(ctx *gin.Context) {
 	}
 
 	ctx.JSON(http.StatusOK, result)
+}
+
+// SearchRecords
+// @Tags Records
+// @Summary Get paginated records by search term
+// @Accept json
+// @Produce json
+// @Param request body domain.RecordSearch true "query params"
+// @Success 201 {object} entities.SearchRecordsResponse
+// @Failure 400 {object} entities.ErrorResponse
+// @Failure 500 {object} entities.ErrorResponse
+// @Router /records [post]
+func (h *CalculatorHandler) SearchRecords(ctx *gin.Context) {
+	userID := ctx.GetString("user_id")
+	if userID == "" {
+		ctx.AbortWithStatusJSON(http.StatusForbidden, entities.ErrorResponse{Error: "you cant not perform this action"})
+		return
+	}
+
+	var search domain.RecordSearch
+	if err := ctx.BindJSON(&search); err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, entities.ErrorResponse{Error: err.Error()})
+		return
+	}
+
+	search.UserID = userID
+
+	result, err := h.records.Search(search)
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, entities.ErrorResponse{Error: err.Error()})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, entities.SearchRecordsResponse{Records: result})
 }
