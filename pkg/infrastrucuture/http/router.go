@@ -12,6 +12,7 @@ type Router interface {
 
 func NewRouter(routes RoutesGroup) Router {
 	route := gin.Default()
+	route.Use(middlewares.CORSMiddleware())
 
 	root := route.Group("/")
 	routes.HealthCheckRoutes.RegisterHealthRoutes(root)
