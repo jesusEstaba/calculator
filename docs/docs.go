@@ -40,8 +40,8 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {
-                    "201": {
-                        "description": "Created",
+                    "200": {
+                        "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/domain.CalculationResult"
                         }
@@ -85,8 +85,8 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {
-                    "201": {
-                        "description": "Created",
+                    "200": {
+                        "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/entities.LoginResponse"
                         }
@@ -130,8 +130,8 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {
-                    "201": {
-                        "description": "Created",
+                    "200": {
+                        "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/entities.SearchRecordsResponse"
                         }
@@ -162,7 +162,7 @@ const docTemplate = `{
                 "tags": [
                     "Records"
                 ],
-                "summary": "Get paginated records by search term",
+                "summary": "Delete record",
                 "parameters": [
                     {
                         "description": "query params",

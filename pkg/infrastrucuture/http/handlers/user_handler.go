@@ -54,7 +54,7 @@ func (h *UserHandler) Register(ctx *gin.Context) {
 // @Accept json
 // @Produce json
 // @Param request body entities.LoginUser true "query params"
-// @Success 201 {object} entities.LoginResponse
+// @Success 200 {object} entities.LoginResponse
 // @Failure 400 {object} entities.ErrorResponse
 // @Failure 500 {object} entities.ErrorResponse
 // @Router /login [post]

@@ -32,8 +32,8 @@
                     }
                 ],
                 "responses": {
-                    "201": {
-                        "description": "Created",
+                    "200": {
+                        "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/domain.CalculationResult"
                         }
@@ -77,8 +77,8 @@
                     }
                 ],
                 "responses": {
-                    "201": {
-                        "description": "Created",
+                    "200": {
+                        "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/entities.LoginResponse"
                         }
@@ -122,8 +122,8 @@
                     }
                 ],
                 "responses": {
-                    "201": {
-                        "description": "Created",
+                    "200": {
+                        "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/entities.SearchRecordsResponse"
                         }
@@ -154,7 +154,7 @@
                 "tags": [
                     "Records"
                 ],
-                "summary": "Get paginated records by search term",
+                "summary": "Delete record",
                 "parameters": [
                     {
                         "description": "query params",

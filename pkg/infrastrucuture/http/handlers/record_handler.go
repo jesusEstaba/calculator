@@ -29,7 +29,7 @@ func NewRecordHandler(
 // @Accept json
 // @Produce json
 // @Param request body domain.RecordSearch true "query params"
-// @Success 201 {object} entities.SearchRecordsResponse
+// @Success 200 {object} entities.SearchRecordsResponse
 // @Failure 400 {object} entities.ErrorResponse
 // @Failure 500 {object} entities.ErrorResponse
 // @Router /records [post]
@@ -59,7 +59,7 @@ func (h *RecordHandler) SearchRecords(ctx *gin.Context) {
 
 // DeleteRecord
 // @Tags Records
-// @Summary Get paginated records by search term
+// @Summary Delete record
 // @Accept json
 // @Produce json
 // @Param request body domain.RecordSearch true "query params"

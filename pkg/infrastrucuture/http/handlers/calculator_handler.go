@@ -26,7 +26,7 @@ func NewCalculatorHandler(
 // @Accept json
 // @Produce json
 // @Param request body domain.Calculation true "query params"
-// @Success 201 {object} domain.CalculationResult
+// @Success 200 {object} domain.CalculationResult
 // @Failure 400 {object} entities.ErrorResponse
 // @Failure 500 {object} entities.ErrorResponse
 // @Router /calculate [post]
