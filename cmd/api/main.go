@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"github.com/jesusEstaba/calculator/internal"
 	"github.com/jesusEstaba/calculator/internal/database"
 	"github.com/jesusEstaba/calculator/pkg/infrastrucuture/http"
@@ -37,7 +38,7 @@ func main() {
 	}
 
 	r := http.NewRouter(routesGroup)
-	logrus.Fatal(r.Run(":8080"))
+	logrus.Fatal(r.Run(fmt.Sprintf(":%s", internal.Config.Port)))
 }
 
 type API struct {

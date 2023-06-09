@@ -22,6 +22,7 @@ func init() {
 }
 
 type config struct {
+	Port               string `env:"PORT"`
 	Environment        string `env:"APP_ENV"`
 	JWTSecret          string `env:"APP_JWT_SECRET"`
 	RandomStringAPIKey string `env:"APP_RANDOM_STRING_API_KEY"`
@@ -37,8 +38,14 @@ type DatabaseConnection struct {
 }
 
 func (b *DatabaseConnection) DBConnectionString() string {
+	srv := ""
+	if Config.Environment == "production" {
+		srv = "+srv"
+	}
+
 	return fmt.Sprintf(
-		"mongodb://%s:%s@%s:27017",
+		"mongodb%s://%s:%s@%s",
+		srv,
 		b.DbUser,
 		b.DbPassword,
 		b.DbHost,
