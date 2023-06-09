@@ -13,3 +13,7 @@ type LoginResponse struct {
 type SearchRecordsResponse struct {
 	Records []*domain.Record `json:"records"`
 }
+
+type BalanceResponse struct {
+	Balance float64 `json:"balance"`
+}

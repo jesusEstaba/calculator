@@ -10,15 +10,18 @@ import (
 type UserHandler struct {
 	register *usecase.RegisterUserUseCase
 	login    *usecase.LoginUseCase
+	balance  *usecase.GetBalanceUseCase
 }
 
 func NewUserHandler(
 	register *usecase.RegisterUserUseCase,
 	login *usecase.LoginUseCase,
+	balance *usecase.GetBalanceUseCase,
 ) *UserHandler {
 	return &UserHandler{
 		register,
 		login,
+		balance,
 	}
 }
 
@@ -72,4 +75,28 @@ func (h *UserHandler) Login(ctx *gin.Context) {
 	}
 
 	ctx.JSON(http.StatusOK, entities.LoginResponse{Token: *token})
+}
+
+// Balance
+// @Tags User
+// @Summary Get user balance
+// @Produce json
+// @Success 200 {object} entities.BalanceResponse
+// @Failure 400 {object} entities.ErrorResponse
+// @Failure 500 {object} entities.ErrorResponse
+// @Router /balance [get]
+func (h *UserHandler) Balance(ctx *gin.Context) {
+	userID := ctx.GetString("user_id")
+	if userID == "" {
+		ctx.AbortWithStatusJSON(http.StatusForbidden, entities.ErrorResponse{Error: "you cant not perform this action"})
+		return
+	}
+
+	balance, err := h.balance.Balance(userID)
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, entities.ErrorResponse{Error: err.Error()})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, entities.BalanceResponse{Balance: balance})
 }

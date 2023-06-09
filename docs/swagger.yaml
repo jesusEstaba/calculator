@@ -62,6 +62,11 @@ definitions:
     x-enum-varnames:
     - UserStatusActive
     - UserStatusInactive
+  entities.BalanceResponse:
+    properties:
+      balance:
+        type: number
+    type: object
   entities.CreateUser:
     properties:
       password:
@@ -99,6 +104,26 @@ info:
   title: Calculator API
   version: "1.0"
 paths:
+  /balance:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entities.BalanceResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/entities.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/entities.ErrorResponse'
+      summary: Get user balance
+      tags:
+      - User
   /calculate:
     post:
       consumes:

@@ -69,9 +69,14 @@ func dependencies() *API {
 		tokenRepoImpl,
 	)
 
+	balanceUseCase := usecase.NewGetBalanceUseCase(
+		userRepoImpl,
+	)
+
 	userHandler := handlers.NewUserHandler(
 		registerUseCase,
 		loginUseCase,
+		balanceUseCase,
 	)
 
 	calculatorUseCase := usecase.NewCalculatorUseCase(

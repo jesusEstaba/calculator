@@ -18,10 +18,10 @@ func NewRouter(routes RoutesGroup) Router {
 	routes.SwaggerRoutes.RegisterSwaggerRoutes(root)
 
 	service := route.Group("api/calculator/v1")
-	routes.UserRoutes.RegisterUserRoutes(service)
-
 	secure := route.Group("api/calculator/v1")
 	secure.Use(middlewares.AuthenticationMiddleware())
+
+	routes.UserRoutes.RegisterUserRoutes(service, secure)
 	routes.CalculatorRoutes.RegisterCalculatorRoutes(secure)
 	routes.RecordRoutes.RegisterRecordRoutes(secure)
 

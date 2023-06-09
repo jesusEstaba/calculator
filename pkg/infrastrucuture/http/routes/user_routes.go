@@ -15,7 +15,9 @@ func NewRoutes(handler *handlers.UserHandler) *UserRoutes {
 	}
 }
 
-func (r *UserRoutes) RegisterUserRoutes(public *gin.RouterGroup) {
+func (r *UserRoutes) RegisterUserRoutes(public *gin.RouterGroup, secret *gin.RouterGroup) {
 	public.POST("/register", r.handler.Register)
 	public.POST("/login", r.handler.Login)
+
+	secret.GET("/balance", r.handler.Balance)
 }
