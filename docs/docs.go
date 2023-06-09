@@ -25,6 +25,15 @@ const docTemplate = `{
                     "User"
                 ],
                 "summary": "Get user balance",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -34,6 +43,12 @@ const docTemplate = `{
                     },
                     "400": {
                         "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/entities.ErrorResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
                         "schema": {
                             "$ref": "#/definitions/entities.ErrorResponse"
                         }
@@ -58,7 +73,7 @@ const docTemplate = `{
                 "tags": [
                     "Calculator"
                 ],
-                "summary": "Perform a operation",
+                "summary": "Perform an operation",
                 "parameters": [
                     {
                         "description": "query params",
@@ -68,6 +83,13 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/domain.Calculation"
                         }
+                    },
+                    {
+                        "type": "string",
+                        "description": "Token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -83,6 +105,12 @@ const docTemplate = `{
                             "$ref": "#/definitions/entities.ErrorResponse"
                         }
                     },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/entities.ErrorResponse"
+                        }
+                    },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
@@ -94,6 +122,7 @@ const docTemplate = `{
         },
         "/login": {
             "post": {
+                "description": "Generate Authorization Token",
                 "consumes": [
                     "application/json"
                 ],
@@ -158,6 +187,13 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/domain.RecordSearch"
                         }
+                    },
+                    {
+                        "type": "string",
+                        "description": "Token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -169,6 +205,12 @@ const docTemplate = `{
                     },
                     "400": {
                         "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/entities.ErrorResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
                         "schema": {
                             "$ref": "#/definitions/entities.ErrorResponse"
                         }
@@ -203,6 +245,13 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/domain.RecordSearch"
                         }
+                    },
+                    {
+                        "type": "string",
+                        "description": "Token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -214,6 +263,12 @@ const docTemplate = `{
                     },
                     "400": {
                         "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/entities.ErrorResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
                         "schema": {
                             "$ref": "#/definitions/entities.ErrorResponse"
                         }

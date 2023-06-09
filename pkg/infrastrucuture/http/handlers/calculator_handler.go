@@ -22,12 +22,14 @@ func NewCalculatorHandler(
 
 // Calculate
 // @Tags Calculator
-// @Summary Perform a operation
+// @Summary Perform an operation
 // @Accept json
 // @Produce json
 // @Param request body domain.Calculation true "query params"
+// @Param Authorization header string true "Token" required:true
 // @Success 200 {object} domain.CalculationResult
 // @Failure 400 {object} entities.ErrorResponse
+// @Failure 401 {object} entities.ErrorResponse
 // @Failure 500 {object} entities.ErrorResponse
 // @Router /calculate [post]
 func (h *CalculatorHandler) Calculate(ctx *gin.Context) {

@@ -106,6 +106,12 @@ info:
 paths:
   /balance:
     get:
+      parameters:
+      - description: Token
+        in: header
+        name: Authorization
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -115,6 +121,10 @@ paths:
             $ref: '#/definitions/entities.BalanceResponse'
         "400":
           description: Bad Request
+          schema:
+            $ref: '#/definitions/entities.ErrorResponse'
+        "401":
+          description: Unauthorized
           schema:
             $ref: '#/definitions/entities.ErrorResponse'
         "500":
@@ -135,6 +145,11 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/domain.Calculation'
+      - description: Token
+        in: header
+        name: Authorization
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -146,17 +161,22 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/entities.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/entities.ErrorResponse'
         "500":
           description: Internal Server Error
           schema:
             $ref: '#/definitions/entities.ErrorResponse'
-      summary: Perform a operation
+      summary: Perform an operation
       tags:
       - Calculator
   /login:
     post:
       consumes:
       - application/json
+      description: Generate Authorization Token
       parameters:
       - description: query params
         in: body
@@ -193,6 +213,11 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/domain.RecordSearch'
+      - description: Token
+        in: header
+        name: Authorization
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -202,6 +227,10 @@ paths:
             $ref: '#/definitions/entities.SearchRecordsResponse'
         "400":
           description: Bad Request
+          schema:
+            $ref: '#/definitions/entities.ErrorResponse'
+        "401":
+          description: Unauthorized
           schema:
             $ref: '#/definitions/entities.ErrorResponse'
         "500":
@@ -222,6 +251,11 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/domain.RecordSearch'
+      - description: Token
+        in: header
+        name: Authorization
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -231,6 +265,10 @@ paths:
             $ref: '#/definitions/entities.SearchRecordsResponse'
         "400":
           description: Bad Request
+          schema:
+            $ref: '#/definitions/entities.ErrorResponse'
+        "401":
+          description: Unauthorized
           schema:
             $ref: '#/definitions/entities.ErrorResponse'
         "500":

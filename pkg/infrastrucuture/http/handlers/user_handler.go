@@ -54,6 +54,7 @@ func (h *UserHandler) Register(ctx *gin.Context) {
 // Login
 // @Tags User
 // @Summary User login
+// @Description Generate Authorization Token
 // @Accept json
 // @Produce json
 // @Param request body entities.LoginUser true "query params"
@@ -81,8 +82,10 @@ func (h *UserHandler) Login(ctx *gin.Context) {
 // @Tags User
 // @Summary Get user balance
 // @Produce json
+// @Param Authorization header string true "Token" required:true
 // @Success 200 {object} entities.BalanceResponse
 // @Failure 400 {object} entities.ErrorResponse
+// @Failure 401 {object} entities.ErrorResponse
 // @Failure 500 {object} entities.ErrorResponse
 // @Router /balance [get]
 func (h *UserHandler) Balance(ctx *gin.Context) {
