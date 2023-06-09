@@ -23,6 +23,7 @@ func NewRouter(routes RoutesGroup) Router {
 	secure := route.Group("api/calculator/v1")
 	secure.Use(middlewares.AuthenticationMiddleware())
 	routes.CalculatorRoutes.RegisterCalculatorRoutes(secure)
+	routes.RecordRoutes.RegisterRecordRoutes(secure)
 
 	return route
 }
@@ -32,4 +33,5 @@ type RoutesGroup struct {
 	SwaggerRoutes     *routes.SwaggerRoutes
 	UserRoutes        *routes.UserRoutes
 	CalculatorRoutes  *routes.CalculatorRoutes
+	RecordRoutes      *routes.RecordRoutes
 }

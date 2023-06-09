@@ -3,6 +3,7 @@ package usecase
 import (
 	"github.com/jesusEstaba/calculator/pkg/domain"
 	"github.com/jesusEstaba/calculator/pkg/domain/operations"
+	"time"
 )
 
 type CalculatorUseCase struct {
@@ -61,6 +62,7 @@ func (uc *CalculatorUseCase) Calculate(userID string, calculation *domain.Calcul
 		Amount:            operation.Cost,
 		UserBalance:       user.Balance,
 		OperationResponse: result,
+		Date:              time.Now(),
 	}
 	err = uc.operationRepo.RecordOperation(operationRecord)
 	if err != nil {

@@ -17,5 +17,4 @@ func NewCalculatorRoutes(handler *handlers.CalculatorHandler) *CalculatorRoutes 
 
 func (r *CalculatorRoutes) RegisterCalculatorRoutes(secret *gin.RouterGroup) {
 	secret.POST("/calculate", r.handler.Calculate)
-	secret.POST("/records", r.handler.SearchRecords)
 }

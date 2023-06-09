@@ -24,7 +24,7 @@ type CRUDRepository[V any, T Model[V]] interface {
 	Insert(T) error
 	FindByID(id string) (T, error)
 	FindByKey(key string, value any) (T, error)
-	GetByFilter(filter interface{}, opts ...*options.FindOptions) ([]T, error)
+	GetByFilterSoftDeletes(filter bson.M, opts ...*options.FindOptions) ([]T, error)
 }
 
 type mongoErr struct {
@@ -166,11 +166,12 @@ func (r *crudRepository[V, T]) FindByKey(key string, value any) (T, error) {
 	return result, nil
 }
 
-func (r *crudRepository[V, T]) GetByFilter(filter interface{}, opts ...*options.FindOptions) ([]T, error) {
+func (r *crudRepository[V, T]) GetByFilterSoftDeletes(filter bson.M, opts ...*options.FindOptions) ([]T, error) {
 	result := []T{}
 	ctx, cancel := nctx()
 	defer cancel()
 
+	filter["deleted_at"] = nil
 	res, err := r.collection.Find(ctx, filter, opts...)
 	if err != nil {
 		return nil, mongoError(err)

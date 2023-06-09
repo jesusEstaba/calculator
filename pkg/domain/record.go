@@ -3,6 +3,7 @@ package domain
 import (
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
+	"time"
 )
 
 type Record struct {
@@ -12,7 +13,8 @@ type Record struct {
 	Amount            float64             `json:"amount" bson:"amount"`
 	UserBalance       float64             `json:"user_balance" bson:"user_balance"`
 	OperationResponse any                 `json:"operation_response" bson:"operation_response"`
-	Date              string              `json:"created_at" bson:"created_at"`
+	Date              time.Time           `json:"created_at" bson:"created_at"`
+	DeletedAt         *time.Time          `json:"-" bson:"deleted_at"`
 }
 
 type RecordSearch struct {

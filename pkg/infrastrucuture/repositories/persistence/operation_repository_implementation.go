@@ -9,6 +9,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"strings"
+	"time"
 )
 
 type OperationRepositoryImplementation struct {
@@ -74,8 +75,28 @@ func (r *OperationRepositoryImplementation) GetRecordsByUserAndSearchTermPaginat
 		}
 	}
 
-	return r.recordRepository.GetByFilter(
+	return r.recordRepository.GetByFilterSoftDeletes(
 		filter,
 		opts,
 	)
+}
+
+func (r *OperationRepositoryImplementation) DeleteFromUser(userID string, id string) error {
+	record, err := r.recordRepository.FindByID(id)
+	if err != nil {
+		return err
+	}
+
+	if record.UserID != userID {
+		return errors.New("you cant not remove this record")
+	}
+
+	now := time.Now()
+	record.DeletedAt = &now
+	err = r.recordRepository.Insert(record)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }

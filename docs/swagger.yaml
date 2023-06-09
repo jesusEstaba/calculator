@@ -186,6 +186,35 @@ paths:
       summary: Get paginated records by search term
       tags:
       - Records
+  /records/:ID:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/domain.RecordSearch'
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+          schema:
+            $ref: '#/definitions/entities.SearchRecordsResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/entities.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/entities.ErrorResponse'
+      summary: Get paginated records by search term
+      tags:
+      - Records
   /register:
     post:
       consumes:

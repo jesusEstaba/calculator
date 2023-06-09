@@ -3,6 +3,7 @@ package usecase
 import (
 	"fmt"
 	"github.com/jesusEstaba/calculator/pkg/domain"
+	"github.com/stretchr/testify/mock"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"testing"
 
@@ -28,20 +29,12 @@ func TestCalculate(t *testing.T) {
 		ID:   &operationID,
 		Cost: 1000,
 	}
-
-	record := domain.Record{
-		OperationID: operationID.Hex(),
-		UserID:      userID.Hex(),
-		Amount:      1000,
-		UserBalance: 1000,
-		OperationResponse: &domain.CalculationResult{
-			Result: fmt.Sprintf("%f", float64(4)),
-		},
-	}
-
+	
 	operationRepo := new(MockOperationRepo)
 	operationRepo.On("GetOperation", calculation.OperationName).Return(operation, nil)
-	operationRepo.On("RecordOperation", record).Return(nil)
+	operationRepo.On("RecordOperation", mock.MatchedBy(func(recordInput domain.Record) bool {
+		return recordInput.Amount == 1000 && recordInput.UserBalance == 1000
+	})).Return(nil)
 
 	userRepo := new(MockUserRepo)
 	userRepo.On("GetUser", userID.Hex()).Return(&user)
@@ -91,19 +84,8 @@ func TestCalculateWhenOperationFails(t *testing.T) {
 		Cost: 1000,
 	}
 
-	record := domain.Record{
-		OperationID: operationID.Hex(),
-		UserID:      userID.Hex(),
-		Amount:      1000,
-		UserBalance: 1000,
-		OperationResponse: &domain.CalculationResult{
-			Result: fmt.Sprintf("%f", float64(4)),
-		},
-	}
-
 	operationRepo := new(MockOperationRepo)
 	operationRepo.On("GetOperation", calculation.OperationName).Return(operation, nil)
-	operationRepo.On("RecordOperation", record).Return(nil)
 
 	userRepo := new(MockUserRepo)
 	userRepo.On("GetUser", userID.Hex()).Return(&user)

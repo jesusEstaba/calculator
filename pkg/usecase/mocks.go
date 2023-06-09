@@ -23,6 +23,11 @@ func (m *MockOperationRepo) GetRecordsByUserAndSearchTermPaginated(search domain
 	return args.Get(0).([]*domain.Record), args.Error(1)
 }
 
+func (m *MockOperationRepo) DeleteFromUser(userID string, id string) error {
+	args := m.Called(userID, id)
+	return args.Error(0)
+}
+
 type MockUserRepo struct {
 	mock.Mock
 }

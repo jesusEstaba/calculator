@@ -26,12 +26,14 @@ func main() {
 	swaggerRoutes := routes.NewSwaggerDocsRoutes()
 	userRoutes := routes.NewRoutes(api.userHandler)
 	calculatorRoutes := routes.NewCalculatorRoutes(api.calculatorHandler)
+	recordRoutes := routes.NewRecordRoutes(api.recordHandler)
 
 	routesGroup := http.RoutesGroup{
 		HealthCheckRoutes: healthRoutes,
 		SwaggerRoutes:     swaggerRoutes,
 		UserRoutes:        userRoutes,
 		CalculatorRoutes:  calculatorRoutes,
+		RecordRoutes:      recordRoutes,
 	}
 
 	r := http.NewRouter(routesGroup)
@@ -41,6 +43,7 @@ func main() {
 type API struct {
 	userHandler       *handlers.UserHandler
 	calculatorHandler *handlers.CalculatorHandler
+	recordHandler     *handlers.RecordHandler
 }
 
 func dependencies() *API {
@@ -77,17 +80,26 @@ func dependencies() *API {
 		randomRepoImpl,
 	)
 
-	searchRecords := usecase.NewSearchUserRecordsUseCase(
+	searchRecordsUseCase := usecase.NewSearchUserRecordsUseCase(
+		operationRepoImpl,
+	)
+
+	deleteUseCase := usecase.NewDeleteRecordUseCase(
 		operationRepoImpl,
 	)
 
 	calculatorHandler := handlers.NewCalculatorHandler(
 		calculatorUseCase,
-		searchRecords,
+	)
+
+	recordHandler := handlers.NewRecordHandler(
+		searchRecordsUseCase,
+		deleteUseCase,
 	)
 
 	return &API{
 		userHandler,
 		calculatorHandler,
+		recordHandler,
 	}
 }
