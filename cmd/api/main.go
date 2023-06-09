@@ -1,14 +1,14 @@
 package main
 
 import (
-	_ "github.com/gin-gonic/gin"
 	"github.com/jesusEstaba/calculator/internal"
 	"github.com/jesusEstaba/calculator/internal/database"
 	"github.com/jesusEstaba/calculator/pkg/infrastrucuture/http"
 	"github.com/jesusEstaba/calculator/pkg/infrastrucuture/http/handlers"
 	"github.com/jesusEstaba/calculator/pkg/infrastrucuture/http/routes"
-	"github.com/jesusEstaba/calculator/pkg/infrastrucuture/persistence"
-	"github.com/jesusEstaba/calculator/pkg/infrastrucuture/third_party"
+	httprepo "github.com/jesusEstaba/calculator/pkg/infrastrucuture/repositories/http"
+	"github.com/jesusEstaba/calculator/pkg/infrastrucuture/repositories/persistence"
+	"github.com/jesusEstaba/calculator/pkg/infrastrucuture/repositories/third_party"
 	"github.com/jesusEstaba/calculator/pkg/usecase"
 	"github.com/sirupsen/logrus"
 )
@@ -52,7 +52,7 @@ func dependencies() *API {
 	userRepoImpl := persistence.NewUserRepository(db)
 	passwdRepoImpl := third_party.NewPasswordRepository()
 	tokenRepoImpl := third_party.NewTokenRepositoryImplementation()
-	randomRepoImpl := http.NewRandomStringRepositoryImplementation()
+	randomRepoImpl := httprepo.NewRandomStringRepositoryImplementation()
 	operationRepoImpl := persistence.NewOperationRepositoryImplementation(db)
 
 	registerUseCase := usecase.NewRegisterUserUseCase(

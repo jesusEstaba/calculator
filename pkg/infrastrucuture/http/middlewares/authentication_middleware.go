@@ -3,7 +3,7 @@ package middlewares
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/jesusEstaba/calculator/pkg/infrastrucuture/http/entities"
-	"github.com/jesusEstaba/calculator/pkg/infrastrucuture/third_party"
+	"github.com/jesusEstaba/calculator/pkg/infrastrucuture/repositories/third_party"
 	"net/http"
 )
 
