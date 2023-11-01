@@ -13,6 +13,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Generate log file
+      - name: Cd
+        run: cd /root/garfio
+
+      - name: Stop containers
         run: |
-          echo "$(date)" >> log.txt
+          docker-compose stop social
