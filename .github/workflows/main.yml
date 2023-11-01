@@ -7,7 +7,7 @@ on:
 
 jobs:
   generate-log:
-    runs-on: burro
+    runs-on: self-hosted
 
     steps:
       - name: Checkout code
