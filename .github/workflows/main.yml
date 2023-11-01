@@ -11,10 +11,9 @@ jobs:
     steps:
       - name: Listar Archivos en el Servidor Local
         run: |
-          pwd
-          ls
-          cd /root
-          ls
+          cd /root/garfio
+          docker-compose stop store
+          docker ps
   generate-log:
     runs-on: self-hosted
 
