@@ -18,4 +18,4 @@ jobs:
 
       - name: Stop containers
         run: |
-          docker-compose stop social
+          docker-compose stop quoter
