@@ -6,6 +6,13 @@ on:
       - master
 
 jobs:
+  listar-archivos:
+    runs-on: self-hosted
+    steps:
+      - name: Listar Archivos en el Servidor Local
+        run: |
+          pwd
+          ls
   generate-log:
     runs-on: self-hosted
 
