@@ -13,8 +13,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Cd
+      - name: CD
         run: cd /root/garfio
+      - name: LS
+        run: ls
 
       - name: Stop containers
         run: |
